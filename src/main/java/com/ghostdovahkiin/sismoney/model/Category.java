@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "category")
-@AllArgsConstructor
 public class Category {
 
   @Id

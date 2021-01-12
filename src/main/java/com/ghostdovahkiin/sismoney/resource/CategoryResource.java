@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import com.ghostdovahkiin.sismoney.model.Category;
 import com.ghostdovahkiin.sismoney.repository.CategoryRepository;
@@ -32,7 +33,7 @@ public class CategoryResource {
   }
 
   @PostMapping
-  public ResponseEntity<Category> create(@RequestBody Category category, HttpServletResponse response) {
+  public ResponseEntity<Category> create(@Valid @RequestBody Category category, HttpServletResponse response) {
     Category savedCategory = categoryRepository.save(category);
     URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(savedCategory.getId())
         .toUri();

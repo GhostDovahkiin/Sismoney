@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Address {
   private String street;
-  private String number;
+  private String streetNumber;
   private String aditional;
   private String zipCode;
   private String city;
@@ -16,9 +16,9 @@ public class Address {
   public Address() {
   }
 
-  public Address(String street, String number, String aditional, String zipCode, String city, String state) {
+  public Address(String street, String streetNumber, String aditional, String zipCode, String city, String state) {
     this.street = street;
-    this.number = number;
+    this.streetNumber = streetNumber;
     this.aditional = aditional;
     this.zipCode = zipCode;
     this.city = city;
@@ -33,12 +33,12 @@ public class Address {
     this.street = street;
   }
 
-  public String getNumber() {
-    return this.number;
+  public String getStreetNumber() {
+    return this.streetNumber;
   }
 
-  public void setNumber(String number) {
-    this.number = number;
+  public void setStreetNumber(String streetNumber) {
+    this.streetNumber = streetNumber;
   }
 
   public String getAditional() {
@@ -78,8 +78,8 @@ public class Address {
     return this;
   }
 
-  public Address number(String number) {
-    setNumber(number);
+  public Address streetNumber(String streetNumber) {
+    setStreetNumber(streetNumber);
     return this;
   }
 
@@ -111,21 +111,21 @@ public class Address {
       return false;
     }
     Address address = (Address) o;
-    return Objects.equals(street, address.street) && Objects.equals(number, address.number)
+    return Objects.equals(street, address.street) && Objects.equals(streetNumber, address.streetNumber)
         && Objects.equals(aditional, address.aditional) && Objects.equals(zipCode, address.zipCode)
         && Objects.equals(city, address.city) && Objects.equals(state, address.state);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(street, number, aditional, zipCode, city, state);
+    return Objects.hash(street, streetNumber, aditional, zipCode, city, state);
   }
 
   @Override
   public String toString() {
-    return "{" + " street='" + getStreet() + "'" + ", number='" + getNumber() + "'" + ", aditional='" + getAditional()
-        + "'" + ", zipCode='" + getZipCode() + "'" + ", city='" + getCity() + "'" + ", state='" + getState() + "'"
-        + "}";
+    return "{" + " street='" + getStreet() + "'" + ", streetNumber='" + getStreetNumber() + "'" + ", aditional='"
+        + getAditional() + "'" + ", zipCode='" + getZipCode() + "'" + ", city='" + getCity() + "'" + ", state='"
+        + getState() + "'" + "}";
   }
 
 }

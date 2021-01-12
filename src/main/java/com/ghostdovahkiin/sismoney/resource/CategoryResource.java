@@ -27,7 +27,7 @@ public class CategoryResource {
   private CategoryRepository categoryRepository;
 
   @GetMapping
-  public ResponseEntity<?> list() {
+  public ResponseEntity<Object> list() {
     List<Category> categories = categoryRepository.findAll();
     return !categories.isEmpty() ? ResponseEntity.ok(categories) : ResponseEntity.noContent().build();
   }
@@ -42,7 +42,7 @@ public class CategoryResource {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<?> searchById(@PathVariable Long id) {
+  public ResponseEntity<Object> searchById(@PathVariable Long id) {
     Optional<Category> foundCategory = categoryRepository.findById(id);
     return !foundCategory.isEmpty() ? ResponseEntity.ok(foundCategory) : ResponseEntity.notFound().build();
   }

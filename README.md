@@ -41,14 +41,9 @@
 - [Getting Started](#Getting-Started-)
   - [Cloning](#Cloning)
   - [Requirements](#Requirements)
-    - [Web](#Web)
-    - [Server](#Server)
-  - [Running](#Running)
 - [Issues](#Issues-)
   - [Report](#Report)
-  - ~~Trouble Shooting~~
 - [Contributing](#Contributing-)
-- [Todo](#Todo-)
 - [License](#License-)
 
 ### Getting Started 🚀

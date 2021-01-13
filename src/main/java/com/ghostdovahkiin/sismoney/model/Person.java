@@ -2,6 +2,7 @@ package com.ghostdovahkiin.sismoney.model;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.validation.constraints.NotNull;
 public class Person {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long id;
 
   @NotNull

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,6 +65,15 @@ public class SismoneyExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     return errors;
+  }
+
+  @ExceptionHandler({ EmptyResultDataAccessException.class })
+  @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Data used to retrieve does not exist")
+  public ResponseEntity<Object> handleEmptyResultDataAcessException(EmptyResultDataAccessException ex, WebRequest request) {
+    String userMessage = messageSource.getMessage("resource.not.found", null, LocaleContextHolder.getLocale())
+    String devMessage = ex.getCause().toString();
+    List<Erro> errors = Arrays.asList(new Erro(userMessage, devMessage));
+    return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
   }
 
   public static class Erro {

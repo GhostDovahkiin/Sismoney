@@ -1,6 +1,7 @@
 package com.ghostdovahkiin.sismoney.resource;
 
 import com.ghostdovahkiin.sismoney.repository.PersonRepository;
+import com.ghostdovahkiin.sismoney.service.PersonService;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,9 @@ public class PersonResource {
 
   @Autowired
   private ApplicationEventPublisher publisher;
+
+  @Autowired
+  private PersonService personService;
 
   @PostMapping
   public ResponseEntity<Person> criar(@Valid @RequestBody Person person, HttpServletResponse response) {
@@ -68,15 +72,7 @@ public class PersonResource {
 
   @PutMapping("/{id}")
   public ResponseEntity<Person> update(@PathVariable Long id, @Valid @RequestBody Person updatedPerson) {
-    return personRepository.findById(id).map(person -> {
-      person.setpersonName(updatedPerson.getpersonName());
-      person.setActive(updatedPerson.getActive());
-      person.setAddress(updatedPerson.getAddress());
-      return ResponseEntity.ok(personRepository.save(person));
-    }).orElseGet(() -> {
-      updatedPerson.setId(id);
-      personRepository.save(updatedPerson);
-      return ResponseEntity.badRequest().build();
-    });
+    Person savedPerson = personService.updatePerson(id, updatedPerson);
+    return ResponseEntity.ok(savedPerson);
   }
 }

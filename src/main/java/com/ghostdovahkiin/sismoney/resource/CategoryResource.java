@@ -10,6 +10,7 @@ import com.ghostdovahkiin.sismoney.event.CreatedResourceEvent;
 import com.ghostdovahkiin.sismoney.model.Category;
 import com.ghostdovahkiin.sismoney.repository.CategoryRepository;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,5 +60,17 @@ public class CategoryResource {
       categoryRepository.deleteById(id);
       return ResponseEntity.noContent().build();
     }
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Category> update(@PathVariable Long id, @Valid @RequestBody Category updatedCategory) {
+    return categoryRepository.findById(id).map(category -> {
+      category.setCategoryName(updatedCategory.getCategoryName());
+      return ResponseEntity.ok(categoryRepository.save(category));
+    }).orElseGet(() -> {
+      updatedCategory.setId(id);
+      categoryRepository.save(updatedCategory);
+      return ResponseEntity.badRequest().build();
+    });
   }
 }

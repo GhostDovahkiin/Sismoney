@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,5 +64,19 @@ public class PersonResource {
       personRepository.deleteById(id);
       return ResponseEntity.noContent().build();
     }
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Person> update(@PathVariable Long id, @Valid @RequestBody Person updatedPerson) {
+    return personRepository.findById(id).map(person -> {
+      person.setpersonName(updatedPerson.getpersonName());
+      person.setActive(updatedPerson.getActive());
+      person.setAddress(updatedPerson.getAddress());
+      return ResponseEntity.ok(personRepository.save(person));
+    }).orElseGet(() -> {
+      updatedPerson.setId(id);
+      personRepository.save(updatedPerson);
+      return ResponseEntity.badRequest().build();
+    });
   }
 }

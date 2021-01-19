@@ -72,7 +72,7 @@ public class SismoneyExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleEmptyResultDataAcessException(EmptyResultDataAccessException ex,
       WebRequest request) {
     String userMessage = messageSource.getMessage("resource.not.found", null, LocaleContextHolder.getLocale());
-    String devMessage = ex.toString();
+    String devMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
     List<Erro> errors = Arrays.asList(new Erro(userMessage, devMessage));
     return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
   }

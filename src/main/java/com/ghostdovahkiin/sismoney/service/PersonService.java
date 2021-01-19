@@ -22,4 +22,14 @@ public class PersonService {
       throw new EmptyResultDataAccessException(1);
     });
   }
+
+  public Person updateActivePropertie(Long id, Boolean active) {
+    return personRepository.findById(id).map(person -> {
+      person.setActive(active);
+      return personRepository.save(person);
+    }).orElseGet(() -> {
+      throw new EmptyResultDataAccessException(1);
+    });
+  }
+
 }

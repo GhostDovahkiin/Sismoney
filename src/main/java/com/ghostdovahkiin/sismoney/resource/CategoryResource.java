@@ -10,7 +10,6 @@ import com.ghostdovahkiin.sismoney.event.CreatedResourceEvent;
 import com.ghostdovahkiin.sismoney.model.Category;
 import com.ghostdovahkiin.sismoney.repository.CategoryRepository;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import com.ghostdovahkiin.sismoney.event.CreatedResourceEvent;
 import com.ghostdovahkiin.sismoney.model.Category;
 import com.ghostdovahkiin.sismoney.repository.CategoryRepository;
+import com.ghostdovahkiin.sismoney.service.CategoryService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -30,6 +31,8 @@ public class CategoryResource {
   private CategoryRepository categoryRepository;
   @Autowired
   private ApplicationEventPublisher publisher;
+  @Autowired
+  private CategoryService categoryService;
 
   @GetMapping
   public ResponseEntity<Object> list() {
@@ -63,13 +66,7 @@ public class CategoryResource {
 
   @PutMapping("/{id}")
   public ResponseEntity<Category> update(@PathVariable Long id, @Valid @RequestBody Category updatedCategory) {
-    return categoryRepository.findById(id).map(category -> {
-      category.setCategoryName(updatedCategory.getCategoryName());
-      return ResponseEntity.ok(categoryRepository.save(category));
-    }).orElseGet(() -> {
-      updatedCategory.setId(id);
-      categoryRepository.save(updatedCategory);
-      return ResponseEntity.badRequest().build();
-    });
+    Category savedCategory = categoryService.updateCategory(id, updatedCategory);
+    return ResponseEntity.ok(savedCategory);
   }
 }

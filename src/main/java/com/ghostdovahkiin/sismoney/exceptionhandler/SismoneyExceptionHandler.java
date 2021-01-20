@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -46,14 +47,13 @@ public class SismoneyExceptionHandler extends ResponseEntityExceptionHandler {
     return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
   }
 
-  @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Data integrity violation")
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Data integrity violation")
   @ExceptionHandler({ javax.validation.ConstraintViolationException.class, DataIntegrityViolationException.class })
-  private ResponseEntity<Object> handleNullArgument(ConstraintViolationException ex, HttpHeaders headers,
-      HttpStatus status, WebRequest request) {
+  private ResponseEntity<Object> handlDataViolationException(DataIntegrityViolationException ex, WebRequest request) {
     String userMessage = messageSource.getMessage("data.violation", null, LocaleContextHolder.getLocale());
-    String devMessage = ex.toString();
+    String devMessage = ExceptionUtils.getRootCauseMessage(ex);
     List<Erro> errors = Arrays.asList(new Erro(userMessage, devMessage));
-    return handleExceptionInternal(ex, errors, headers, HttpStatus.CONFLICT, request);
+    return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
   }
 
   private List<Erro> createErrorList(BindingResult bindingResult) {

@@ -40,7 +40,7 @@ public class PersonResource {
   private PersonService personService;
 
   @PostMapping
-  public ResponseEntity<Person> criar(@Valid @RequestBody Person person, HttpServletResponse response) {
+  public ResponseEntity<Person> create(@Valid @RequestBody Person person, HttpServletResponse response) {
     Person savedPerson = personRepository.save(person);
 
     publisher.publishEvent(new CreatedResourceEvent(this, response, savedPerson.getId()));

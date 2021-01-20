@@ -9,7 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "person")
@@ -62,8 +65,10 @@ public class Person {
     this.address = address;
   }
 
-  public Boolean isActive() {
-    return this.active;
+  @JsonIgnore
+  @Transient
+  public Boolean isInactive() {
+    return !this.active;
   }
 
   public Boolean getActive() {
@@ -114,7 +119,7 @@ public class Person {
   @Override
   public String toString() {
     return "{" + " id='" + getId() + "'" + ", personName='" + getpersonName() + "'" + ", address='" + getAddress() + "'"
-        + ", active='" + isActive() + "'" + "}";
+        + ", active='" + getActive() + "'" + "}";
   }
 
 }

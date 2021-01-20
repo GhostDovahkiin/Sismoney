@@ -1,5 +1,7 @@
 package com.ghostdovahkiin.sismoney.service;
 
+import java.util.Optional;
+
 import com.ghostdovahkiin.sismoney.model.Person;
 import com.ghostdovahkiin.sismoney.repository.PersonRepository;
 
@@ -30,6 +32,14 @@ public class PersonService {
     }).orElseGet(() -> {
       throw new EmptyResultDataAccessException(1);
     });
+  }
+
+  public Optional<Person> searchPersonById(Long id) {
+    Optional<Person> savedPerson = personRepository.findById(id);
+    if (savedPerson == null) {
+      throw new EmptyResultDataAccessException(1);
+    }
+    return savedPerson;
   }
 
 }

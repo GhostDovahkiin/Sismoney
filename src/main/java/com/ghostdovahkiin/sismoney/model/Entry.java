@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "entries")
@@ -26,23 +27,28 @@ public class Entry {
   @Column(name = "entry_description")
   private String entryDescription;
 
+  @NotNull
   @Column(name = "due_date")
   private LocalDate dueDate;
 
   @Column(name = "pay_date")
   private LocalDate payDate;
 
+  @NotNull
   private BigDecimal amount;
   private String observation;
 
+  @NotNull
   @Enumerated(EnumType.STRING)
   @Column(name = "entry_type")
   private EntryType entryType;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "category_id")
   private Category category;
 
+  @NotNull
   @ManyToOne
   @JoinColumn(name = "person_id")
   private Person person;

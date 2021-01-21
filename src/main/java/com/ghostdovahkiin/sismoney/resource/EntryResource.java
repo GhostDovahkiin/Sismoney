@@ -11,9 +11,9 @@ import com.ghostdovahkiin.sismoney.event.CreatedResourceEvent;
 import com.ghostdovahkiin.sismoney.exceptionhandler.SismoneyExceptionHandler.Erro;
 import com.ghostdovahkiin.sismoney.model.Entry;
 import com.ghostdovahkiin.sismoney.repository.EntryRepository;
+import com.ghostdovahkiin.sismoney.repository.filter.EntryFilter;
 import com.ghostdovahkiin.sismoney.service.EntryService;
 import com.ghostdovahkiin.sismoney.service.exception.AbsentOrInactivePersonException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
@@ -43,9 +43,8 @@ public class EntryResource {
   private MessageSource messageSource;
 
   @GetMapping
-  public ResponseEntity<Object> list() {
-    List<Entry> entries = entryRepository.findAll();
-    return !entries.isEmpty() ? ResponseEntity.ok(entries) : ResponseEntity.noContent().build();
+  public List<Entry> listFiltered(EntryFilter entryFilter) {
+    return entryRepository.filter(entryFilter);
   }
 
   @GetMapping("/{id}")
